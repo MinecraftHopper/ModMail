@@ -1,8 +1,10 @@
 FROM node:14
 
+ENV VERSION=v3.3.2
+
 RUN git clone https://github.com/Dragory/modmailbot && \
     cd modmailbot && \ 
-    git checkout v3.3.2 && \
+    git checkout ${VERSION} && \
     npm ci
 
 ENV MM_MAIN_SERVER_ID=
@@ -17,6 +19,8 @@ ENV MM_MYSQL_OPTIONS__PORT=3306
 ENV MM_MYSQL_OPTIONS__USER=
 ENV MM_MYSQL_OPTIONS__PASSWORD=
 ENV MM_MYSQL_OPTIONS__DATABASE=modmail
+ENV MM_CATEGORY_AUTOMATION__NEW_THREAD=
+ENV MM_STATUS="Modmail, the way to report things"
 
 WORKDIR modmailbot
 
