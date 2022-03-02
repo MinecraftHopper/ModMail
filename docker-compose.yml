@@ -3,8 +3,6 @@ services:
   updatejson:
     image: ghcr.io/minecrafthopper/modmail
     restart: always
-    depends_on:
-      - database
     environment:
       MM_TOKEN: ${TOKEN}
       MM_MAIN_SERVER_ID: ${SERVER_ID}
@@ -17,6 +15,9 @@ services:
     volumes:
       - "dbdata:/db"
     deploy:
+      placement:
+        constraints:
+          - "node.role==manager"
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.modmail.rule=Host(`${HOST}`)"
