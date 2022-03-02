@@ -1,0 +1,30 @@
+version: "3.3"
+services:
+  updatejson:
+    image: ghcr.io/minecrafthopper/modmail
+    restart: always
+    depends_on:
+      - database
+    environment:
+      MM_TOKEN: ${TOKEN}
+      MM_MAIN_SERVER_ID: ${SERVER_ID}
+      MM_INBOX_SERVER_ID: ${SERVER_ID}
+      MM_LOG_CHANNEL_ID: ${LOG_CHANNEL_ID}
+      MM_CATEGORY_AUTOMATION__NEW_THREAD: ${CATEGORY_ID}
+      MM_DB_TYPE: mysql
+      MM_MYSQL_OPTIONS__USER: modmail
+      MM_MYSQL_OPTIONS__PASSWORD: ${DB_PASS}
+
+  database:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_USER: modmail
+      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_DATABASE: modmail
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+    volumes:
+      - "dbdata:/var/lib/mysql"
+
+volumes:
+  dbdata:
