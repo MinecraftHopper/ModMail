@@ -11,7 +11,7 @@ services:
       MM_CATEGORY_AUTOMATION__NEW_THREAD: ${CATEGORY_ID}
       MM_DB_TYPE: sqlite
       MM_SQLITEOPTIONS__FILENAME: /db/database.db
-      MM_URL: "${URL}"
+      MM_URL: "https://${HOST}"
     volumes:
       - "dbdata:/db"
     deploy:
