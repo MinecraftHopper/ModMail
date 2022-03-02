@@ -13,8 +13,16 @@ services:
       MM_CATEGORY_AUTOMATION__NEW_THREAD: ${CATEGORY_ID}
       MM_DB_TYPE: sqlite
       MM_SQLITEOPTIONS__FILENAME: /db/database.db
+      MM_URL: "${URL}"
     volumes:
       - "dbdata:/db"
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.modmail.rule=Host(`${HOST}`)"
+        - "traefik.http.routers.modmail.entrypoints=websecure"
+        - "traefik.http.routers.modmail.tls.certresolver=myresolver"
+        - "traefik.http.services.modmail.loadbalancer.server.port=8890"
 
 volumes:
   dbdata:
