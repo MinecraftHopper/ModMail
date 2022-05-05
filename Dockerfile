@@ -7,10 +7,11 @@ WORKDIR /usr/src/app
 RUN git clone https://github.com/Dragory/modmailbot && \
     cd modmailbot && \ 
     git checkout ${VERSION} && \
+    npm install -g minify-all node-prune && \
     npm ci --only=production && \
     npm prune --production && \
-    curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash -s -- -b /usr/local/bin && \
-    /usr/local/bin/node-prune
+    node-prune && \
+    minify-all
 
 
 FROM node:14-alpine
