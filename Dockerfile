@@ -1,4 +1,4 @@
-FROM node:14-alpineAS BUILD_IMAGE
+FROM node:14 AS BUILD_IMAGE
 
 ENV VERSION=v3.3.2
 
@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 RUN git clone https://github.com/Dragory/modmailbot && \
     cd modmailbot && \ 
     git checkout ${VERSION} && \
-    npm ci && \
+    npm ci --only=production && \
     npm prune --production && \
     curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash -s -- -b /usr/local/bin && \
     /usr/local/bin/node-prune
@@ -26,10 +26,8 @@ ENV MM_CATEGORY_AUTOMATION__NEW_THREAD=
 ENV MM_STATUS="Modmail, the way to report things"
 ENV MM_URL=
 
-COPY --from=BUILD_IMAGE /usr/src/app/modmailbot/dist ./dist
-COPY --from=BUILD_IMAGE /usr/src/app/modmailbot/node_modules ./node_modules
+COPY --from=BUILD_IMAGE /usr/src/app/modmailbot /usr/src/modmailbot
 
-WORKDIR modmailbot
-
+WORKDIR /usr/src/modmailbot
 
 ENTRYPOINT  ["npm", "start"]
