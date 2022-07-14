@@ -1,6 +1,6 @@
 FROM node:14
 
-ENV VERSION=v3.3.2
+ENV VERSION=v3.6.1
 
 RUN git clone https://github.com/Dragory/modmailbot && \
     cd modmailbot && \ 
