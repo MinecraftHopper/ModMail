@@ -1,4 +1,4 @@
-FROM node:22-alpine AS BUILD_IMAGE
+FROM node:20 AS build
 
 ENV VERSION=v3.8.0
 
@@ -14,7 +14,7 @@ RUN git clone https://github.com/Dragory/modmailbot && \
     minify-all
 
 
-FROM node:22-alpine
+FROM node:20-alpine
 ENV MM_MAIN_SERVER_ID= \
     MM_INBOX_SERVER_ID= \
     MM_LOG_CHANNEL_ID= \
@@ -27,7 +27,7 @@ ENV MM_MAIN_SERVER_ID= \
     MM_STATUS="Modmail, the way to report things" \
     MM_URL=
 
-COPY --from=BUILD_IMAGE /usr/src/app/modmailbot /usr/src/modmailbot
+COPY --from=build /usr/src/app/modmailbot /usr/src/modmailbot
 
 WORKDIR /usr/src/modmailbot
 
